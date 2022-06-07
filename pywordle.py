@@ -65,6 +65,7 @@ def check_users():
             user_count = count[0]
 
         if user_count == 0:
+            cursor.close()
             return '\nNo users configured. Stats will not be saved.\n'
         elif user_count >= 2:
             print('\nThere are multiple users configured. Please tell pyWordle which user is playing.\n')
@@ -79,16 +80,17 @@ def check_users():
                 user = get_user[0][0]
                 print(f'\nWelcome back, {user}.\n')
 
+            cursor.close()
+
             return user
         else:
             cursor.execute('SELECT user FROM users;')
             get_user = cursor.fetchall()
             user = get_user[0][0]
             print(f'\nWelcome back, {user}.\n')
+            cursor.close()
 
             return user
-
-    cursor.close()
 
 def select_pywordle_word():
     if exists('pywordle.sqlite'):
@@ -116,14 +118,11 @@ def get_web_page(url):
     return soup
 
 def check_guess(user, word, word_list, guess, game_mode, counter):
+    database_exists = False
     if exists('pywordle.sqlite'):
+        database_exists = True
         connection = connect('pywordle.sqlite')
         cursor = connection.cursor()
-
-    if guess == 'CHEATCODE':
-        print(f'\nThe answer is {word}\n')
-        retry_guess = input('Enter your guess: ')
-        check_guess(user, word, word_list, retry_guess, game_mode, counter=counter)
 
     if len(guess) == 5 and guess.isalpha():
         guess = guess.upper()
@@ -232,38 +231,41 @@ def check_guess(user, word, word_list, guess, game_mode, counter):
                 [hard_mode_a.append(guess_letters[i]) for i in range(len(guess_letters))]
 
         if counter == 6 and guess != word:
-            # Insert stats into the database
-            user_data = cursor.execute(f'SELECT wins, losses, games_played FROM users WHERE user = "{user}";')
-            for row in user_data:
-                wins, losses, games_played = row
+            if database_exists:
+                # Insert stats into the database
+                user_data = cursor.execute(f'SELECT wins, losses, games_played FROM users WHERE user = "{user}";')
+                for row in user_data:
+                    wins, losses, games_played = row
 
-            losses += 1
-            games_played += 1
+                losses += 1
+                games_played += 1
 
-            cursor.execute(f'UPDATE users SET losses = {losses}, games_played = {games_played} WHERE user = "{user}";')
-            connection.commit()
-            cursor.close()
+                cursor.execute(f'UPDATE users SET losses = {losses}, games_played = {games_played} WHERE user = "{user}";')
+                connection.commit()
+                cursor.close()
 
             print(f'\nYou ran out of attempts and didn\'t pyWordle. Try again.\n')
             print(f'The word you were looking for is {word}.\n')
             exit(0)
 
         if guess == word:
-            # Insert stats into the database
-            user_data = cursor.execute(f'SELECT wins, losses, games_played FROM users WHERE user = "{user}";')
-            for row in user_data:
-                wins, losses, games_played = row
+            if database_exists:
+                # Insert stats into the database
+                user_data = cursor.execute(f'SELECT wins, losses, games_played FROM users WHERE user = "{user}";')
+                for row in user_data:
+                    wins, losses, games_played = row
 
-            wins += 1
-            games_played += 1
+                wins += 1
+                games_played += 1
 
-            cursor.execute(f'UPDATE users SET wins = {wins}, games_played = {games_played} WHERE user = "{user}";')
-            connection.commit()
-            cursor.close()
+                cursor.execute(f'UPDATE users SET wins = {wins}, games_played = {games_played} WHERE user = "{user}";')
+                connection.commit()
+                cursor.close()
 
             print('\nCongrats! You solved the pyWordle!\n')
-            print(f'Your current win/loss ratio is {(wins/games_played) * 100}%.\n')
-            print(f'You have {wins} wins, {losses} losses, and have played {games_played} games.')
+            if database_exists:
+                print(f'Your current win/loss ratio is {(wins/games_played) * 100}%.\n')
+                print(f'You have {wins} wins, {losses} losses, and have played {games_played} games.')
             print(save_answers[-1])
             exit(0)
     else:
