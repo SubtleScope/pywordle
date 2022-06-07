@@ -9,8 +9,9 @@
 
 ## Description 
 - Wordle game written in Python 3
-- Cuttently uses the wordlist from charlesreid1 
-  - [Five Letter Words](https://github.com/charlesreid1/five-letter-words/blob/master/sgb-words.txt)
+- Cuttently uses the wordlist from the Stanford GraphBase (Public Domain) 
+  - [Five Letter Words](https://www-cs-faculty.stanford.edu/~knuth/sgb-words.txt)
+  - [Additional Information](https://www-cs-faculty.stanford.edu/~knuth/sgb.html)
 
 ## Features
 ### Database/Word Lists
