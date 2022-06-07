@@ -110,7 +110,7 @@ def get_web_page(url):
         url, 
         data = None,
         headers = {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+          'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36'
         })
     html = urlopen(request).read()
     soup = BeautifulSoup(html, "html.parser")
