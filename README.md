@@ -7,6 +7,11 @@
     |_|    |___/
 ```
 
+## Bugs/Issues
+- There are known/minor issues that are being worked out
+  - Hard Mode B: After incorrect guesses, the counter stays at the number where the error occurred
+  - There are probably some other issues too
+
 ## Description 
 - Wordle game written in Python 3
 - Cuttently uses the wordlist from the Stanford GraphBase (Public Domain) 
