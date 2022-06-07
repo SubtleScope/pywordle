@@ -29,7 +29,7 @@
 - Hard Mode A
   - Cannot use letters which have been previosuly used
 - Hard Mode B
-  - Each guess has to include previously correctly placed and incorrectly place letters
+  - Each guess has to include previously correctly placed and incorrectly placed letters
   - If the letter is placed correctly, the letter must be used in that position for subsequent guesses
   - If the letter is correct but placed incorrectly, the letter must be used in subsequent guesses 
 
