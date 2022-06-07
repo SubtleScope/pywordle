@@ -21,6 +21,7 @@
   - Score recording 
 - Wordlist from file (Decent)
   - Will read a local file to be used as the word list
+  - `./pywordle.py -r /path/to/word_list.txt`
 - Wordlist from the Internet (Okay)
   - Will pull down the word list every time
 

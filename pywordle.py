@@ -30,7 +30,7 @@ def build_pywordle_database():
     cursor.execute('CREATE TABLE pywords (words TEXT)')
     cursor.execute('CREATE TABLE users (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, user TEXT NOT NULL UNIQUE, wins INTEGER, losses INTEGER, games_played INTEGER)')
 
-    url = 'https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt'
+    url = 'https://www-cs-faculty.stanford.edu/~knuth/sgb-words.txt'
     word_page = get_web_page(url)
     for word in word_page:
         if word == '':
@@ -366,7 +366,7 @@ if __name__ == '__main__':
     if exists('pywords.sqlite'):
         word, word_list = select_pywordle_word()
     else:
-        url = 'https://raw.githubusercontent.com/charlesreid1/five-letter-words/master/sgb-words.txt'
+        url = 'https://www-cs-faculty.stanford.edu/~knuth/sgb-words.txt'
         word_page = get_web_page(url)
         for word in word_page:
             if word == '':
